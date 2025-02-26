@@ -169,3 +169,8 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+#configuration file
+config.ini
+
+./ml-32m/*
