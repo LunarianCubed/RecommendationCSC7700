@@ -1,26 +1,48 @@
 import sys
+import numpy as np
 # from get_movie import get_movie
 from model import train_svd
 from data_loader import load_data, get_movie_info
-from recommend import create_matrix, recommend_movies, get_movie_info
+from recommend import recommend_movies
 
 
 def main(*args):
     args = sys.argv
-    user_id = null
+    user_id = None
 
     if "-u" in  args:
-        user_id = args[args.index("-u") + 1]
+        try:
+            user_id = int(args[args.index("-u") + 1])
+        except (IndexError, ValueError):
+            print("Usage: python main.py -u <user_id>")
+            return
 
-    if user_id == null:
-        user_id = input("Enter the user_id you want to recommend to:")
+    if user_id is None:
+        try:
+            user_id = int(input("Enter the user_id you want to recommend to:"))
+        except ValueError:
+            print("Invalid user ID")
+            return
 
     df, movie_info= load_data()
 
-    user_factors, movie_factors = train_svd(rating_matrix)
-    predicted_ratings = np.dot(user.factors, movie_factors)
+    rating_matrix = df.pivot(index="userId", columns="movieId", value="rating").fillna(0)
 
-    recommend_movies(user_id)
+    user_factors, movie_factors = train_svd(rating_matrix)
+    predicted_ratings = np.dot(user_factors, movie_factors)
+
+    recommended_movies_ids = recommend_movies(user_id=user_id, rating_matrix=rating_matrix, predicted_ratings=predicted_ratings)
+
+    if recommended_movies_ids:
+        print("Recommended movies:")
+        formatted_movies = get_movie_info(recommended_movies_ids, movie_info)
+        for movie in formatted_movies:
+            print(movie)
+    else:
+        print("No recommendations available.")
+
+    sys.exit(0)
+
 
 
 if __name__ == "__main__":

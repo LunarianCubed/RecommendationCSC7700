@@ -1,4 +1,3 @@
-import numpy as np
 from sklearn.decomposition import TruncatedSVD
 
 def train_svd(rating_matrix, n_components=2):
