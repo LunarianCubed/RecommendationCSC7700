@@ -8,7 +8,8 @@ from recommend import recommend_movies
 
 def main(*args):
 
-    print("usage: python main.py -u <user_id> -f(ull dataset)")
+    print("Usage: python main.py -u <user_id> [-f]  # -f use full dataset")
+
 
     args = sys.argv
     user_id = None

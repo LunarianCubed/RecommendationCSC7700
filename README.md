@@ -7,3 +7,7 @@ Course project 1 for csc7700
 ## environment set up
 
 ```pip install -r ./requirements.txt```
+
+
+## To run:
+python main.py -u <user_id> [-f]  # -f enables full dataset mode
