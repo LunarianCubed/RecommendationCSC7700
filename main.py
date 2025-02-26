@@ -24,9 +24,12 @@ def main(*args):
             print("Invalid user ID")
             return
 
-    df, movie_info= load_data()
+    if "-f" in args:
+        df, movie_info= load_data(full=True)
+    else:
+        df, movie_info= load_data(full=False)
 
-    rating_matrix = df.pivot(index="userId", columns="movieId", value="rating").fillna(0)
+    rating_matrix = df.pivot(index="userId", columns="movieId", values="rating").fillna(0)
 
     user_factors, movie_factors = train_svd(rating_matrix)
     predicted_ratings = np.dot(user_factors, movie_factors)

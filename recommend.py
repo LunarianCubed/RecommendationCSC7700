@@ -9,7 +9,7 @@ from data_loader import load_data
 
 svd = TruncatedSVD(n_components=2)
 
-df = load_data()
+df, _ = load_data()
 
 def recommend_movies(user_id, rating_matrix, predicted_ratings, num_recommendations=3):
     if user_id not in rating_matrix.index:
@@ -19,7 +19,8 @@ def recommend_movies(user_id, rating_matrix, predicted_ratings, num_recommendati
     user_index = rating_matrix.index.get_loc(user_id)
     user_pred = predicted_ratings[user_index]
 
-    already_rated = df[df["userId"] == user_id]["movieId"].tolist()
+    # already_rated = df[df["userId"] == user_id]["movieId"].tolist()
+    already_rated = rating_matrix.loc[user_id][rating_matrix.loc[user_id] > 0].index.tolist()
     sorted_indices = np.argsort(user_pred)[::-1]
     recommended_movies = [movie for movie in rating_matrix.columns[sorted_indices] if movie not in already_rated]
     
@@ -27,4 +28,4 @@ def recommend_movies(user_id, rating_matrix, predicted_ratings, num_recommendati
 
 
 if __name__ == "__main__":
-    print("usage: py main.py [-u(ser_id)]")
+    print("usage: py main.py -u <user_id>")

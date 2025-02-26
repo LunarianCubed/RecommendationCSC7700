@@ -1,7 +1,14 @@
 import pandas as pd
 
-def load_data(df_path="./ml-32m/ratings.csv", movie_df_path="./ml-32m/movies.csv"):
-    df = pd.read_csv(df_path, dtype={'userId': 'int32', 'movieId': 'int32', 'rating': 'float32'})
+def load_data(df_path="./ml-32m/ratings.csv", movie_df_path="./ml-32m/movies.csv", full=False):
+    #df = pd.read_csv(df_path, dtype={'userId': 'int32', 'movieId': 'int32', 'rating': 'float32'})
+    #df = pd.read_csv(df_path, dtype={'userId': 'int32', 'movieId': 'int32', 'rating': 'float32'}, nrows=10000)
+
+    if full:
+        df = pd.read_csv(df_path, dtype={'userId': 'int32', 'movieId': 'int32', 'rating': 'float32'})
+    else:
+        df = pd.read_csv(df_path, dtype={'userId': 'int32', 'movieId': 'int32', 'rating': 'float32'}, nrows=10000)
+
     movie_df = pd.read_csv(movie_df_path)
     movie_info = dict(zip(movie_df["movieId"], zip(movie_df["title"], movie_df["genres"])))
 
