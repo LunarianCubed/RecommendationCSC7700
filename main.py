@@ -7,6 +7,9 @@ from recommend import recommend_movies
 
 
 def main(*args):
+
+    print("usage: python main.py -u <user_id> -f(ull dataset)")
+
     args = sys.argv
     user_id = None
 
