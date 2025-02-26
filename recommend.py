@@ -2,8 +2,9 @@ import pandas as pd
 import numpy as np
 from sklearn.decomposition import TruncatedSVD
 
-df = pc.read_csv("./ml-32m/ratings.csv")
-rating_matrix = df.pivot(index="userID", columns="movieID", value="rating").fillna(0)
+# df = pc.read_csv("./ml-32m/ratings.csv")
+# movie_df = pd.read_csv("./ml-32m/movies.csv")
+
 
 
 svd = TruncatedSVD(n_components=2)
@@ -12,6 +13,10 @@ movie_factors = svd.components_
 
 predicted_ratings = np.dot(user_factors, movie_factors)
 
+def create_matrix(df):
+    rating_matrix = df.pivot(index="userID", columns="movieID", value="rating").fillna(0)
+
+
 def recommend_movies(user_id, num_recommendations=3):
     if user_id not in rating_matrix.index:
         print("Invalid user ID")
@@ -19,11 +24,13 @@ def recommend_movies(user_id, num_recommendations=3):
 
     user_index = rating_matrix.index.get_loc(user_id)
     user_pred = predicted_ratings[user_index]
+
     already_rated = df[df["userId"] == user_id]["movieId"].tolist()
     sorted_indices = np.argsort(user_pred)[::-1]
     recommended_movies = [movie for movie in rating_matrix.columns[sorted_indices] if movie not in already_rated]
     
     return recommended_movies[:num_recommendations]
+
 
 if __name__ == "__main__":
     print("usage: py main.py [-u(ser_id)]")
