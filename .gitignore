@@ -173,4 +173,4 @@ cython_debug/
 #configuration file
 config.ini
 
-./ml-32m/*
+ml-32m/
