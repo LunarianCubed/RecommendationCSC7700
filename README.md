@@ -10,4 +10,4 @@ Course project 1 for csc7700
 
 
 ## To run:
-python main.py -u <user_id> [-f]  # -f enables full dataset mode
+```python main.py -u <user_id> [-f]  # -f enables full dataset mode```
